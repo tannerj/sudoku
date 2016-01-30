@@ -1,1 +1,1 @@
-require 'io/console'
+require 'sudoku/io/console'

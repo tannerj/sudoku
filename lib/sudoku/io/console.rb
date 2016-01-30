@@ -1,7 +1,7 @@
 module Sudoku
-module IO
-class Console
+  module IO
+    class Console
 
-end
-end
+    end
+  end
 end
