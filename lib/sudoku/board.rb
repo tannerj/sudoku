@@ -2,16 +2,48 @@ module Sudoku
 class Board
   attr_reader :squares, :row_length
 
-  def update_square(square_id)
+  def self.create(args= {})
+    board = self.new
+    square_object = args.fetch(:square_object, Sudoku::Square)
+    args[:square_values].each_char.with_index do |char, i| 
+      char = nil if char == "0"
+      i += 1
+      board.squares << square_object.new(id: i, value: char, board: board)
+    end
+    board
+  end
 
+  def initialize()
+    @squares = []
+    @row_length = 9
+  end
+
+  def update_square(args={})
+    begin
+      @squares[args[:id]].value = args[:value]
+    rescue Sudoku::ValueOutOfBoundsError
+
+    end
   end
   
-  def update_peers(square_id)
+  def update_peers(square)
 
+  end
+
+  def find_peers(square)
+    id = square.id
+
+    []
   end
 
   def illegal_move(square)
 
+  end
+
+  def get_members( container )
+    container.member_squares.map! do |square|
+      @squares[square]
+    end
   end
 
   def self.square_position(args={})
