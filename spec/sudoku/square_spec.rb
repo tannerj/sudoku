@@ -1,23 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Sudoku::Square do
-  describe "#create" do
-    it "should accept an id and value, and return a square instance." do
-      @board = double()
-      @square = Sudoku::Square.create id: 1, value: 9, board: @board
-      expect(@square.id).to eq(1)
-      expect(@square.value).to eq(9)
-    end
-    it "should raise an ArgumentError if no id is provided." do
-      expect{
-        @square = Sudoku::Square.create(value: 9)
-      }.to raise_error(ArgumentError)
-    end
-  end
-
   describe "#initialize" do
     context "with correct parameters" do
-      it "should accept a position" do
+      it "should accept an id" do
         @square = Sudoku::Square.new(id: 1, value: 9)
        expect(@square.id).to eq(1)
       end
@@ -83,11 +69,12 @@ RSpec.describe Sudoku::Square do
   end
 
   describe "#value=" do
+    let(:square) { $square = Sudoku::Square.new( id: 1 )}
     context "with correct params" do
       it "should set the value" do
-        @square = Sudoku::Square.new(id: 1)
-        @square.value = 1
-        expect(@square.value).to eq(1)
+        square
+        square.value = 1
+        expect(square.value).to eq(1)
       end
 
       it "should call board.update_peers" do
@@ -97,10 +84,10 @@ RSpec.describe Sudoku::Square do
         @square.value = 1
       end
 
-      it "should not call self.update_peers if no board is set" do
-        @square = Sudoku::Square.new(id: 1)
-        expect(@square).to_not receive(:update_peers)
-        @square.value = 1
+      it "should set square#possible_values tp signle item array of value" do
+        square
+        square.value = 1
+        expect(square.possible_values).to match_array([1])
       end
     end
 
@@ -154,7 +141,7 @@ RSpec.describe Sudoku::Square do
   end
 
   describe "#update_peers" do
-    it "should send update_peers message on board object." do
+    it "should send update_peers message on board object, passing self." do
       @board = double()
       @square = Sudoku::Square.new(id: 1, value: 2, board: @board)
       expect(@board).to receive(:update_peers).with(@square)
