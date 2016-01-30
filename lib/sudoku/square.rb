@@ -2,11 +2,6 @@ module Sudoku
 class Square
   attr_reader :id, :value, :possible_values
 
-  def self.create(args={})
-    raise ArgumentError.new("A square must have an id") if args[:id].nil?
-    square = self.new id: args[:id], value: args[:value], board: args[:board]
-  end
-
   def initialize(args={})
     raise ArgumentError.new("A valid id must be provided") if args[:id] == nil
     if (args[:id] < 1 || args[:id] > 81)
@@ -18,13 +13,14 @@ class Square
     @id = args[:id]
     @possible_values = (args[:value].nil?) ? (1..9).to_a : [args[:value]]
     @value = args[:value]
-    @board = args[:board]
+    @board = args.fetch(:board, NullBoard.new)
   end
 
   def value=(value)
     raise ValueOutOfBoundsError if value < 1 || value > 9
     @value = value
-    update_peers if @board
+    @possible_values = [value]
+    update_peers
   end
 
   def update(square)
