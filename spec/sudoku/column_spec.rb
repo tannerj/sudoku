@@ -18,24 +18,42 @@ RSpec.describe Sudoku::Column do
   describe "#calc_members" do
     it "generates correct square ids for column 1" do
       column = Sudoku::Column.new( id: 1 )
-      column.calc_members
       expected_squares = [1,10,19,28,37,46,55,64,73]
-      expect(column.member_squares).to eq(expected_squares)
+      expect(column.calc_members).to eq(expected_squares)
     end  
     it "generates correct square ids for column 9" do
       column = Sudoku::Column.new( id: 9 )
       column.calc_members
       expected_squares = [9,18,27,36,45,54,63,72,81]
-      expect(column.member_squares).to eq(expected_squares)
+      expect(column.calc_members).to eq(expected_squares)
     end
   end
 
-  describe "get_members" do
+  describe "#get_members" do
     it "sends get_members message to board" do
       board = double()
       column = Sudoku::Column.new( id: 1, board: board )
-      expect(board).to receive(:get_members) 
+      expect(board).to receive(:get_members).with(column)
       column.get_members
+    end
+  end
+
+  describe "#set_member" do
+    let(:board) { board = double() }
+    let(:column) { Sudoku::Column.new( id: 1, board: board ) }
+
+    it "adds square to member_squares" do
+      square = Sudoku::Square.new( id: 1 )
+      column.set_member square: square
+      expect(column.member_squares).to include(square)
+    end
+
+    context "square not a member of column" do
+      it "does not add square" do
+       square = Sudoku::Square.new( id: 2 )
+       column.set_member square: square
+       expect(column.member_squares).to_not include(square)
+      end
     end
   end
 end
