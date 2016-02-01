@@ -12,5 +12,9 @@ module Container
   def add_member( args={} )
     raise NotImplementedError, "Containers must implement add_member"
   end
+
+  def update_peers( args={} )
+    raise NotImplementedError, "Containers must implement update_peers"
+  end
 end
 end
