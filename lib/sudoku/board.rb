@@ -8,13 +8,14 @@ class Board
     args[:square_values].each_char.with_index do |char, i| 
       char = nil if char == "0"
       i += 1
-      board.squares << square_object.new(id: i, value: char, board: board)
+      board.squares[i] = Sudoku::Square.new(id: i, value: char, board: board)
     end
     board
   end
 
   def initialize()
     @squares = []
+    @squares[0] = Sudoku::NullSquare.new
     @row_length = 9
   end
 
@@ -40,9 +41,9 @@ class Board
 
   end
 
-  def get_members( container )
-    container.member_squares.map! do |square|
-      @squares[square]
+  def set_container_members( container )
+    container.calc_members.each do |square_id|
+      container.add_member square: @squares[square_id]
     end
   end
 

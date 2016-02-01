@@ -22,7 +22,8 @@ RSpec.describe Board do
 
     it "should load baard#squares with 81 square instances" do
       board
-      expect(board.squares.length).to eq(81)
+      #board.squares[0] is nil to match indexes with square ids
+      expect(board.squares.length).to eq(82)
     end
   end
 
@@ -106,6 +107,22 @@ RSpec.describe Board do
     xit "should return an array of peer id's that correspond to given square id." do
       board
       expect(board.find_peers(square)).to match_array(peer_ids)
+    end
+  end
+
+  describe "#set_container_members" do
+    let(:board) { Sudoku::Board.create(
+        square_values: (1..81).to_a.map! { |x| x = "0" }.join
+      )
+    }
+    it "sets container.member_squares" do
+      board
+      container = Sudoku::Column.new id: 1, board: board
+      expected_members = board.squares.select do |square|
+        [1, 10, 19, 28, 37, 46, 55, 64, 73].include? square.id
+      end
+      board.set_container_members container
+      expect(container.member_squares).to match_array(expected_members)
     end
   end
 end
