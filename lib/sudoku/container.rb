@@ -9,8 +9,8 @@ module Container
     raise NotImplementedError, "Containers must implement get_members"
   end
 
-  def set_member( args={} )
-    raise NotImplementedError, "Containers must implement set_member"
+  def add_member( args={} )
+    raise NotImplementedError, "Containers must implement add_member"
   end
 end
 end
