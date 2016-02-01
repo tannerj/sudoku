@@ -25,6 +25,12 @@ class Column
     end
   end
 
+  def update_peers( args={} )
+    altered_peer = args[:square]
+    if validate_square( altered_peer )
+      member_squares.each{ |member| member.update( altered_peer ) }
+    end
+  end
   private
 
   def validate_square( square )

@@ -56,4 +56,32 @@ RSpec.describe Sudoku::Column do
       end
     end
   end
+
+  describe "#update_peers" do
+    let(:column) { Sudoku::Column.new( id: 1 ) }
+    let(:altered_square) do
+       column.calc_members.each do |id|
+        column.add_member( square: Sudoku::Square.new( id: id, value: nil ) )
+      end
+      column.member_squares[1]
+    end
+    it "should call update on each member square" do
+      expect(column.member_squares).to all( 
+        receive(:update).with( altered_square ).exactly(1).times 
+      )
+      column.update_peers( square: altered_square )
+    end
+    it "should validate altered_square" do
+      expect(column).to receive(:validate_square).with( altered_square )
+                        .exactly(1).times
+      column.update_peers( square: altered_square )
+    end
+    context "Altered square is not a member of column" do
+      it "should not call update on member_squares" do
+        expect(column.member_squares).to all(
+          receive(:update).with( altered_square ).exactly(0).times
+        )
+      end
+    end
+  end
 end
