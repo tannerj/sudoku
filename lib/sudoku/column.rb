@@ -16,12 +16,12 @@ class Column
   end
 
   def get_members
-    @board.get_members self
+    @board.set_container_members self
   end
   
-  def set_member( args={} )
+  def add_member( args={} )
     if square = validate_square( args.fetch(:square, nil) )
-      @member_squares[square.id] = square
+      @member_squares << square
     end
   end
 

@@ -33,25 +33,25 @@ RSpec.describe Sudoku::Column do
     it "sends get_members message to board" do
       board = double()
       column = Sudoku::Column.new( id: 1, board: board )
-      expect(board).to receive(:get_members).with(column)
+      expect(board).to receive(:set_container_members).with(column)
       column.get_members
     end
   end
 
-  describe "#set_member" do
+  describe "#add_member" do
     let(:board) { board = double() }
     let(:column) { Sudoku::Column.new( id: 1, board: board ) }
 
     it "adds square to member_squares" do
       square = Sudoku::Square.new( id: 1 )
-      column.set_member square: square
+      column.add_member square: square
       expect(column.member_squares).to include(square)
     end
 
     context "square not a member of column" do
       it "does not add square" do
        square = Sudoku::Square.new( id: 2 )
-       column.set_member square: square
+       column.add_member square: square
        expect(column.member_squares).to_not include(square)
       end
     end
