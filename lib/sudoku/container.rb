@@ -10,7 +10,7 @@ class Container
   end
 
   def calc_members
-    @member_calculator.calc_members( @id )
+    @member_calculator.calc_members self
   end
 
   def get_members
