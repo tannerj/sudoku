@@ -1,5 +1,5 @@
 module Sudoku
-module MemberCalculator
+class MemberCalculator
 
   def calc_members
     raise NotImplementedError, "Containers must implement calc_members"

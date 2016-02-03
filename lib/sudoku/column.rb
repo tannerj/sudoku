@@ -1,6 +1,5 @@
 module Sudoku
-class Column
-  include MemberCalculator
+class Column < MemberCalculator
 
   def calc_members( container )
      (1..9).to_a.map! do |n|
