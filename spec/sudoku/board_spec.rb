@@ -117,7 +117,7 @@ RSpec.describe Board do
     }
     it "sets container.member_squares" do
       board
-      container = Sudoku::Container.new id: 1, member_calculator: Sudoku::Column.new, board: board
+      container = Sudoku::Container.new id: 1, member_calculator: Sudoku::MemberCalculator::Column.new, board: board
       expected_members = board.squares.select do |square|
         [1, 10, 19, 28, 37, 46, 55, 64, 73].include? square.id
       end

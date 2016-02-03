@@ -7,7 +7,7 @@ RSpec.describe Sudoku::Container do
     it "assigns id" do
       column = Sudoku::Container.new( 
         id: 1,
-        member_calculator: Sudoku::Column.new
+        member_calculator: Sudoku::MemberCalculator::Column.new
       )
       expect(column.id).to eq(1)
     end
@@ -22,7 +22,7 @@ RSpec.describe Sudoku::Container do
     it "generates correct square ids for column 1" do
        column = Sudoku::Container.new( 
         id: 1,
-        member_calculator: Sudoku::Column.new
+        member_calculator: Sudoku::MemberCalculator::Column.new
       )
       expected_squares = [1,10,19,28,37,46,55,64,73]
       expect(column.calc_members).to eq(expected_squares)
@@ -30,7 +30,7 @@ RSpec.describe Sudoku::Container do
     it "generates correct square ids for column 9" do
        column = Sudoku::Container.new( 
         id: 9,
-        member_calculator: Sudoku::Column.new
+        member_calculator: Sudoku::MemberCalculator::Column.new
       )
       column.calc_members
       expected_squares = [9,18,27,36,45,54,63,72,81]
@@ -51,7 +51,7 @@ RSpec.describe Sudoku::Container do
     let(:board) { board = double() }
     let(:column) {  column = Sudoku::Container.new( 
         id: 1,
-        member_calculator: Sudoku::Column.new
+        member_calculator: Sudoku::MemberCalculator::Column.new
       )
     }
 
@@ -73,7 +73,7 @@ RSpec.describe Sudoku::Container do
   describe "#update_peers" do
     let(:column) {  column = Sudoku::Container.new( 
         id: 1,
-        member_calculator: Sudoku::Column.new
+        member_calculator: Sudoku::MemberCalculator::Column.new
       )
     }
     let(:altered_square) do
