@@ -21,7 +21,7 @@ RSpec.describe Column do
       expected_squares = [2,11,20,29,38,47,56,65,74]
       expect(column.calc_members).to eq(expected_squares)
     end
-it "generates correct square ids for column 3" do
+    it "generates correct square ids for column 3" do
        column = ::Sudoku::Container.new( 
         id: 3,
         member_calculator: Column.new

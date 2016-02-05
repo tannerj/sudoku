@@ -37,7 +37,5 @@ class Container
     end
     return false
   end
-
-
 end
 end
