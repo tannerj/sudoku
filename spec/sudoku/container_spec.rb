@@ -4,17 +4,18 @@ module Sudoku
 RSpec.describe Container do
   describe "#initialize" do
     let(:board) { Board.new }
-    
+    let(:column) { Container.new(
+      id: 1,
+      member_calculator: Sudoku::MemberCalculator::Column.new,
+      board: board
+    )}
     it "assigns id" do
-      column = Container.new( 
-        id: 1,
-        member_calculator: MemberCalculator::Column.new
-      )
+      column
       expect(column.id).to eq(1)
     end
 
     it "#assigns board" do
-      column = Container.new( board: board )
+      column
       expect(column.board).to eq(board)
     end
   end
