@@ -4,9 +4,10 @@ module Sudoku
 RSpec.describe Container do
   describe "#initialize" do
     let(:board) { Board.new }
+    let(:member_calculator) { Sudoku::MemberCalculator::Column.new }
     let(:column) { Container.new(
       id: 1,
-      member_calculator: Sudoku::MemberCalculator::Column.new,
+      member_calculator: member_calculator,
       board: board
     )}
     it "assigns id" do
@@ -17,6 +18,19 @@ RSpec.describe Container do
     it "#assigns board" do
       column
       expect(column.board).to eq(board)
+    end
+
+    it "#sets container for member_calculator" do
+      column
+      expect(member_calculator.container).to eq(column)
+    end
+    context "No MemberCalculator" do
+      it "should Use NullObject" do
+        column = Container.new(
+          id: 1,
+          board: board
+        )
+      end
     end
   end
 
@@ -35,7 +49,10 @@ RSpec.describe Container do
   describe "#get_members" do
     it "sends get_members message to board" do
       board = double()
-      column = Container.new( id: 1, board: board )
+      column = Container.new( 
+        id: 1, 
+        member_calculator: MemberCalculator::Column.new,
+        board: board )
       expect(board).to receive(:set_container_members).with(column)
       column.get_members
     end

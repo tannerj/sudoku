@@ -1,6 +1,7 @@
 module Sudoku
 module MemberCalculator
 class Base
+  attr_accessor :container
 
   def calc_members( container )
     raise NotImplementedError, "MemberCalculators must implement calc_members"
