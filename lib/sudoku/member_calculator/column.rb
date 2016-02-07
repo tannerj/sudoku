@@ -7,6 +7,12 @@ class Column < Base
       n = (9 * (n - 1)) + container.id
     end
   end
+
+  def set_square_container( square )
+    if calc_members( square ).include? square.id
+      square.column = @container
+    end
+  end
 end
 end
 end

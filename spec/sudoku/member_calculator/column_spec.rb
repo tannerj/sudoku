@@ -79,6 +79,32 @@ RSpec.describe Column do
       expect(column.calc_members).to eq(expected_squares)
     end
   end
+
+  describe "#set_square_container" do
+    let(:member_calculator) { ::Sudoku::MemberCalculator::Column.new }
+    let(:column) { ::Sudoku::Container.new(
+      id: 1,
+      member_calculator: member_calculator
+    )}
+    let(:square) { ::Sudoku::Square.new( id: 1 ) }
+    it "should set square's column" do
+      column
+      member_calculator.set_square_container( square )
+      expect(square.column).to eq( column )
+    end
+    context "square is not a container member" do
+      let(:member_calculator) {  ::Sudoku::MemberCalculator::Column.new }
+      let(:column) { ::Sudoku::Container.new(
+        id: 1,
+        member_calculator: member_calculator
+      ) }
+      let(:square) { ::Sudoku::Square.new( id: 2 ) }
+      it "should not set square's column" do
+        member_calculator.set_square_container( square )
+        expect(square.column).to_not eq( column )
+      end
+    end
+  end
 end
 end
 end
