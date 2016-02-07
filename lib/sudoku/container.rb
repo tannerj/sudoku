@@ -6,7 +6,9 @@ class Container
     @id = args[:id]
     @board = args.fetch(:board, NullBoard.new)
     @member_squares = []
-    @member_calculator = args.fetch(:member_calculator, MemberCalculator::NullCalculator.new)
+    @member_calculator = args.fetch(
+      :member_calculator, MemberCalculator::NullCalculator.new
+    )
     @member_calculator.container = self
   end
 
