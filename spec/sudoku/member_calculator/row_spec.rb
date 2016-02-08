@@ -92,10 +92,6 @@ RSpec.describe Row do
       expect(square.row).to eq( row )
     end
     context "square is not a container member" do
-      let(:row) { ::Sudoku::Container.new(
-        id: 1,
-        member_calculator: member_calculator
-      ) }
       let(:square) { ::Sudoku::Square.new( id: 2 ) }
       it "should not set square's row" do
         member_calculator.set_square_container( square )
