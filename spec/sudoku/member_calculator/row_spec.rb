@@ -77,7 +77,33 @@ RSpec.describe Row do
       expected_squares = [73,74,75,76,77,78,79,80,81]
       expect(row.calc_members).to eq(expected_squares)
     end
+  end  
+  
+  describe "#set_square_container" do
+    let(:member_calculator) { ::Sudoku::MemberCalculator::Row.new }
+    let(:row) { ::Sudoku::Container.new(
+      id: 1,
+      member_calculator: member_calculator
+    )}
+    let(:square) { ::Sudoku::Square.new( id: 1 ) }
+    it "should set square's row" do
+      row 
+      member_calculator.set_square_container( square )
+      expect(square.row).to eq( row )
+    end
+    context "square is not a container member" do
+      let(:row) { ::Sudoku::Container.new(
+        id: 1,
+        member_calculator: member_calculator
+      ) }
+      let(:square) { ::Sudoku::Square.new( id: 2 ) }
+      it "should not set square's row" do
+        member_calculator.set_square_container( square )
+        expect(square.row).to_not eq( row)
+      end
+    end
   end
+
 end
 end
 end
