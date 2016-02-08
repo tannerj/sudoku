@@ -1,7 +1,7 @@
 module Sudoku
 class Square
   attr_reader :id, :value, :possible_values
-  attr_accessor :column, :row
+  attr_accessor :column, :row, :box
 
   def initialize(args={})
     raise ArgumentError.new("A valid id must be provided") if args[:id] == nil

@@ -78,6 +78,27 @@ RSpec.describe Box do
       expect(box.calc_members).to match_array(expected_squares)
     end
   end
+
+  describe "#set_square_container" do
+    let(:member_calculator) { ::Sudoku::MemberCalculator::Box.new }
+    let(:box) { ::Sudoku::Container.new(
+      id: 1,
+      member_calculator: member_calculator
+    )}
+    let(:square) { ::Sudoku::Square.new( id: 1 ) }
+    it "should set square's box" do
+      box
+      member_calculator.set_square_container( square )
+      expect(square.box).to eq( box )
+    end
+    context "square is not a container member" do
+      let(:square) { ::Sudoku::Square.new( id: 2 ) }
+      it "should not set square's box" do
+        member_calculator.set_square_container( square )
+        expect(square.box).to_not eq( box )
+      end
+    end
+  end
 end
 end
 end

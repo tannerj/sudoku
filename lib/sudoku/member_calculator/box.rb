@@ -14,6 +14,13 @@ class Box < Base
       n = (row * 9) + (first_member + (n - 1) - (3 * row))
     end
   end
+
+  def set_square_container( square )
+    if calc_members( square ).include? square.id
+      square.box = @container
+    end
+
+  end
 end
 end
 end

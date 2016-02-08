@@ -99,7 +99,6 @@ RSpec.describe Row do
       end
     end
   end
-
 end
 end
 end
