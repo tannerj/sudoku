@@ -25,6 +25,7 @@ class Square
   end
 
   def update(square)
+    return if square.id == id
     return if square.value.nil?
     @possible_values.delete_if do | possible_value |
       true if possible_value == square.value

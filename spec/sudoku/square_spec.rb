@@ -138,6 +138,12 @@ RSpec.describe Sudoku::Square do
       expect(@board).to receive(:illegal_move).with(@illegal_peer)
       @square.update @illegal_peer
     end
+
+    it "doesn't update if it receives itself as an arguement" do
+      @square = Sudoku::Square.new(id: 1, value: 9)
+      @square.update( @square )
+      expect(@square.possible_values).to match_array([9])
+    end
   end
 
   describe "#update_peers" do
