@@ -31,16 +31,6 @@ class Board
 
   end
 
-  def find_peers(square)
-    id = square.id
-
-    []
-  end
-
-  def illegal_move(square)
-
-  end
-
   def set_container_members( container )
     container.calc_members.each do |square_id|
       container.add_member square: @squares[square_id]
