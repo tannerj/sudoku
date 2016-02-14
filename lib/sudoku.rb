@@ -1,3 +1,5 @@
+$:.unshift File.dirname(__FILE__)
+
 require 'sudoku/game'
 require 'sudoku/board'
 require 'sudoku/null_board'
