@@ -7,11 +7,11 @@ class Board
   end
 
   def initialize( args={} )
+    @row_length = args.fetch(:row_length, 9)
     @squares = []
     @squares[0] = Sudoku::NullSquare.new
-    @row_length = 9
     @columns = []
-    @columns << Sudoku::NullContainer.new
+    @columns[0] = Sudoku::NullContainer.new
     populate_members( args )
   end
 
