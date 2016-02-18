@@ -35,6 +35,7 @@ class Container
   private
 
   def validate_square( square )
+    return false if square.nil?
     if calc_members.include? square.id
       return square
     end
