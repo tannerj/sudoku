@@ -14,6 +14,8 @@ RSpec.describe Board do
         game: game
       )
     end
+    let(:column_1_ids) { [1, 10, 19, 28, 37, 46, 55, 64, 73] }
+    let(:column_9_ids) { [9, 18, 27, 36, 45, 54, 63, 72, 81] }
 
     it "should call Sudoku::Square.create 81 times" do
       expect(square).to receive(:new).exactly(81).times
@@ -24,6 +26,26 @@ RSpec.describe Board do
       board
       #board.squares[0] is nil to match indexes with square ids
       expect(board.squares.length).to eq(82)
+    end
+
+    it "should set column one members correctly" do
+      board_column_ids = []
+      board.columns[1].member_squares.each do |square|
+        if !square.nil?
+          board_column_ids << square.id
+        end
+      end
+      expect(board_column_ids).to eq(column_1_ids)
+    end
+
+    it "should set column nine members correctly" do
+      board_column_ids = []
+      board.columns[9].member_squares.each do |square|
+        if !square.nil?
+          board_column_ids << square.id
+        end
+      end
+      expect(board_column_ids).to eq(column_9_ids)
     end
   end
 

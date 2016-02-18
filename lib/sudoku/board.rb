@@ -1,6 +1,6 @@
 module Sudoku
 class Board
-  attr_reader :squares, :row_length
+  attr_reader :squares, :row_length, :columns
 
   def self.create(args= {})
     board = self.new
@@ -10,6 +10,7 @@ class Board
       i += 1
       board.squares[i] = Sudoku::Square.new(id: i, value: char, board: board)
     end
+    board.set_columns
     board
   end
 
@@ -17,6 +18,8 @@ class Board
     @squares = []
     @squares[0] = Sudoku::NullSquare.new
     @row_length = 9
+    @columns = []
+    @columns << Sudoku::NullContainer.new
   end
 
   def update_square(args={})
@@ -48,8 +51,21 @@ class Board
     row += 1 unless column == 9
     position = "r#{row}c#{column}"
   end
-  
+
+  def set_columns
+    (1..9).to_a.each do |i|
+       new_column = Container.new(
+         id: i,
+         member_calculator: MemberCalculator::Column.new,
+         board: self
+       )
+       set_container_members( new_column )
+       @columns[i] = new_column 
+    end
+  end
+
   private
+
   def calc_rows
     rows = {}
     @row_length.times do |n|
