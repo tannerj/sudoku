@@ -3,23 +3,16 @@ class Board
   attr_reader :squares, :row_length, :columns
 
   def self.create(args= {})
-    board = self.new
-    square_object = args.fetch(:square_object, Sudoku::Square)
-    args[:square_values].each_char.with_index do |char, i| 
-      char = nil if char == "0"
-      i += 1
-      board.squares[i] = Sudoku::Square.new(id: i, value: char, board: board)
-    end
-    board.set_columns
-    board
+    board = self.new( args )
   end
 
-  def initialize()
+  def initialize( args={} )
     @squares = []
     @squares[0] = Sudoku::NullSquare.new
     @row_length = 9
     @columns = []
     @columns << Sudoku::NullContainer.new
+    populate_members( args )
   end
 
   def update_square(args={})
@@ -52,6 +45,22 @@ class Board
     position = "r#{row}c#{column}"
   end
 
+  private
+
+  def populate_members( args={} )
+    set_squares( args )
+    set_columns
+  end
+
+  def set_squares( args={} )
+    square_object = args.fetch(:square_object, Sudoku::Square)
+    args[:square_values].each_char.with_index do |char, i| 
+      char = nil if char == "0"
+      i += 1
+      @squares[i] = square_object.new(id: i, value: char, board: self)
+    end
+  end
+
   def set_columns
     (1..9).to_a.each do |i|
        new_column = Container.new(
@@ -63,8 +72,6 @@ class Board
        @columns[i] = new_column 
     end
   end
-
-  private
 
   def calc_rows
     rows = {}
