@@ -1,6 +1,7 @@
 module Sudoku
 module MemberCalculator
 class NullCalculator < Base
+
   def calc_members
   end
 
