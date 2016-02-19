@@ -26,7 +26,7 @@ RSpec.describe Board do
       board
     end
 
-    it "should load baard#squares with 81 square instances" do
+    it "should load board#squares with 81 square instances" do
       board
       #board.squares[0] is nil to match indexes with square ids
       expect(board.squares.length).to eq(82)
