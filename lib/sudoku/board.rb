@@ -1,6 +1,6 @@
 module Sudoku
 class Board
-  attr_reader :squares, :row_length, :columns
+  attr_reader :squares, :row_length, :columns, :rows, :boxes
 
   def self.create(args= {})
     board = self.new( args )
@@ -12,6 +12,10 @@ class Board
     @squares[0] = Sudoku::NullSquare.new
     @columns = []
     @columns[0] = Sudoku::NullContainer.new
+    @rows = []
+    @rows[0] = Sudoku::NullContainer.new
+    @boxes = []
+    @boxes[0] = Sudoku::NullContainer.new
     populate_members( args )
   end
 
@@ -49,7 +53,7 @@ class Board
 
   def populate_members( args={} )
     set_squares( args )
-    set_columns
+    set_containers
   end
 
   def set_squares( args={} )
@@ -60,16 +64,18 @@ class Board
       @squares[i] = square_object.new(id: i, value: char, board: self)
     end
   end
-
-  def set_columns
-    (1..9).to_a.each do |i|
-       new_column = Container.new(
-         id: i,
-         member_calculator: MemberCalculator::Column.new,
-         board: self
-       )
-       set_container_members( new_column )
-       @columns[i] = new_column 
+  
+  def set_containers
+    { Column: :columns, Row: :rows, Box: :boxes }.each do |klass, instance_variable|
+      (1..9).to_a.each do |i|
+        new_container = Container.new(
+          id: i,
+          member_calculator: MemberCalculator.const_get(klass).new,
+          board: self
+        )
+        set_container_members( new_container )
+        self.send(instance_variable)[i] = new_container
+      end
     end
   end
 

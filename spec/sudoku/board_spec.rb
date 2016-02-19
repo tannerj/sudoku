@@ -16,6 +16,10 @@ RSpec.describe Board do
     end
     let(:column_1_ids) { [1, 10, 19, 28, 37, 46, 55, 64, 73] }
     let(:column_9_ids) { [9, 18, 27, 36, 45, 54, 63, 72, 81] }
+    let(:row_1_ids) { [1, 2, 3, 4, 5, 6, 7, 8, 9] }
+    let(:row_9_ids) { [73, 74, 75, 76, 77, 78,  79, 80, 81] }
+    let(:box_1_ids) { [1, 2, 3, 10, 11, 12, 19, 20, 21] }
+    let(:box_9_ids) { [61, 62, 63, 70, 71, 72, 79, 80, 81] }
 
     it "should call Sudoku::Square.create 81 times" do
       expect(square).to receive(:new).exactly(81).times
@@ -46,6 +50,46 @@ RSpec.describe Board do
         end
       end
       expect(board_column_ids).to eq(column_9_ids)
+    end
+
+    it "should set row one members correctly" do
+      board_row_ids = []
+      board.rows[1].member_squares.each do |square|
+        if !square.nil?
+          board_row_ids << square.id
+        end
+      end
+      expect(board_row_ids).to eq(row_1_ids)
+    end
+    
+    it "should set row nine members correctly" do
+      board_row_ids = []
+      board.rows[9].member_squares.each do |square|
+        if !square.nil?
+          board_row_ids << square.id
+        end
+      end
+      expect(board_row_ids).to eq(row_9_ids)
+    end
+    
+    it "should set box one members correctly" do
+      board_box_ids = []
+      board.boxes[1].member_squares.each do |square|
+        if !square.nil?
+          board_box_ids << square.id
+        end
+      end
+      expect(board_box_ids).to eq(box_1_ids)
+    end    
+    
+    it "should set box nine members correctly" do
+      board_box_ids = []
+      board.boxes[9].member_squares.each do |square|
+        if !square.nil?
+          board_box_ids << square.id
+        end
+      end
+      expect(board_box_ids).to eq(box_9_ids)
     end
   end
 
