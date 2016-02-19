@@ -8,13 +8,10 @@ class Board
 
   def initialize( args={} )
     @row_length = args.fetch(:row_length, 9)
-    @squares = []
+    @squares, @columns, @rows, @boxes = [], [], [], []
     @squares[0] = Sudoku::NullSquare.new
-    @columns = []
     @columns[0] = Sudoku::NullContainer.new
-    @rows = []
     @rows[0] = Sudoku::NullContainer.new
-    @boxes = []
     @boxes[0] = Sudoku::NullContainer.new
     populate_members( args )
   end
