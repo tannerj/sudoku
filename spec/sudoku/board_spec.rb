@@ -169,8 +169,7 @@ RSpec.describe Board do
     }
     let(:expected_non_peer_possible_values) { (1..9).to_a  }
     it "should update each peer" do
-      board.squares[1].value = 1
-      board.update_peers( board.squares[1] )
+      board.squares[1].value = 1 # This calls board.update_peers
       peer_possible_values = []
       board.squares.each do |square|
         if peer_ids.include? square.id
@@ -181,8 +180,7 @@ RSpec.describe Board do
         .to all( match_array( expected_peer_possible_values ) )
     end
     it "should not update non-peers" do
-      board.squares[1].value = 1
-      board.update_peers( board.squares[1] )
+      board.squares[1].value = 1 # This calls board.update_peers
       non_peer_possible_values = []
       board.squares.each_with_index do |square, index|
         # square 1 is what we've updated it is not a peer,
@@ -196,7 +194,6 @@ RSpec.describe Board do
       end
       expect(non_peer_possible_values)
         .to all( match_array( expected_non_peer_possible_values ) )
-
     end
   end
 
