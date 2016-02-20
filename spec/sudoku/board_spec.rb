@@ -152,7 +152,52 @@ RSpec.describe Board do
   end
 
   describe "#update_peers" do
-    it "should update a given square's peers' possible_values with square's value."
+    let(:board) { Board.create(
+        square_values: (1..81).to_a.map! { |x| "0" }.join
+      )
+    }
+    let(:square) { board.squares[1] }
+    let(:peer_ids) {
+      peer_ids = [
+                   2, 3, 4, 5, 6, 7, 8, 9,
+                   10, 11, 12, 19, 20, 21,
+                   28, 37, 46, 55, 64, 73
+                 ]
+    }
+    let(:expected_peer_possible_values) {
+      [ 2, 3, 4, 5, 6, 7, 8, 9 ]
+    }
+    let(:expected_non_peer_possible_values) { (1..9).to_a  }
+    it "should update each peer" do
+      board.squares[1].value = 1
+      board.update_peers( board.squares[1] )
+      peer_possible_values = []
+      board.squares.each do |square|
+        if peer_ids.include? square.id
+          peer_possible_values << square.possible_values
+        end
+      end
+      expect(peer_possible_values)
+        .to all( match_array( expected_peer_possible_values ) )
+    end
+    it "should not update non-peers" do
+      board.squares[1].value = 1
+      board.update_peers( board.squares[1] )
+      non_peer_possible_values = []
+      board.squares.each_with_index do |square, index|
+        # square 1 is what we've updated it is not a peer,
+        # nor a non-peer, we'll just skip it.
+        # We also have to skip the square at index zero,
+        # it's a null object.
+        next if [0, 1].include? index
+        if !peer_ids.include? square.id
+          non_peer_possible_values << square.possible_values
+        end
+      end
+      expect(non_peer_possible_values)
+        .to all( match_array( expected_non_peer_possible_values ) )
+
+    end
   end
 
   describe "#set_container_members" do

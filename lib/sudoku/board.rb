@@ -24,8 +24,9 @@ class Board
     end
   end
   
-  def update_peers(square)
-
+  def update_peers( square )
+    peers = find_peers( square )
+    peers.each { |peer| peer.update( square ) }
   end
 
   def set_container_members( container )
@@ -76,14 +77,32 @@ class Board
     end
   end
 
-  def calc_rows
-    rows = {}
-    @row_length.times do |n|
-      min = n*1
-      max = n*9
-      rows[n] = (min..max).to_a 
+  def find_peers( square )
+    peers = []
+    # if square.id is <= 9 square is in row 1
+    # else dividing the id by 9.0 and taking the
+    # ceil will give us the row.
+    if ( square.id > 9 )
+      row_id = ( square.id / 9.0 ).ceil
+    else
+      row_id = 1
     end
-    rows
+
+    if ( square.id < 9 )
+      column_id = square.id
+    else
+      column_id = square.id % 9
+    end
+
+    #calc box
+    row_multiplier = ( ( row_id / 3.0 ).floor ) * 3
+    box_column = ( column_id / 3.0 ).ceil
+    box_id = row_multiplier + box_column
+
+    peers << @rows[row_id].member_squares
+    peers << @columns[column_id].member_squares
+    peers << @boxes[box_id].member_squares
+    peers.flatten
   end
 end
 end
