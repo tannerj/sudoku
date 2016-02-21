@@ -216,5 +216,15 @@ RSpec.describe Board do
       expect(container.member_squares).to match_array(expected_members)
     end
   end
+
+  describe "#illegal_move" do
+    let(:board) { Board.create(
+        square_values: (1..81).to_a.map! { |x| x = "0" }.join
+      )
+    }
+    it "should respond to #illegal_move" do
+      expect(board).to respond_to(:illegal_move)
+    end
+  end
 end
 end

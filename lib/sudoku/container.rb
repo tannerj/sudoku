@@ -1,6 +1,6 @@
 module Sudoku
 class Container
-  attr_reader :id, :member_squares, :board
+  attr_reader :id, :member_squares, :board, :possible_values
 
   def initialize( args={} )
     @id = args[:id]
@@ -10,6 +10,7 @@ class Container
       :member_calculator, MemberCalculator::NullCalculator.new
     )
     @member_calculator.container = self
+    @possible_values = (1..9).to_a
   end
 
   def calc_members
@@ -30,6 +31,7 @@ class Container
     altered_peer = args[:square]
     if validate_square( altered_peer )
       member_squares.each{ |member| member.update( altered_peer ) }
+      update_possible_values( altered_peer )
     end
   end
   private
@@ -40,6 +42,14 @@ class Container
       return square
     end
     return false
+  end
+
+  def update_possible_values( altered_peer )
+    if @possible_values.include? altered_peer.value
+      @possible_values.delete( altered_peer.value )
+    else
+      @board.illegal_move
+    end
   end
 end
 end

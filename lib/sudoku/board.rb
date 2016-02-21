@@ -47,6 +47,10 @@ class Board
     position = "r#{row}c#{column}"
   end
 
+  def illegal_move()
+    
+  end
+
   private
 
   def populate_members( args={} )
