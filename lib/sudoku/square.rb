@@ -30,7 +30,7 @@ class Square
     @possible_values.delete_if do | possible_value |
       true if possible_value == square.value
     end
-    @board.illegal_move(square) if @possible_values.empty?
+    @board.illegal_move if @possible_values.empty?
     @value = @possible_values[0] if @possible_values.length == 1
   end
 

@@ -111,14 +111,6 @@ RSpec.describe Container do
       end
     end
     context "Altered square is set to value that is not possible" do
-      it "sends #illegal_move to Board" do
-        member_square.value = 1
-        column.update( square: member_square )
-        second_member = column.member_squares[1]
-        second_member.value = 1
-        expect(board).to receive(:illegal_move)
-        column.update( square: second_member)
-      end
     end
   end
 end

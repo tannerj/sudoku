@@ -135,7 +135,7 @@ RSpec.describe Sudoku::Square do
       @board = double()
       @square = Sudoku::Square.new(id: 1, value: 9, board: @board)
       @illegal_peer = Sudoku::Square.new(id: 2, value: 9)
-      expect(@board).to receive(:illegal_move).with(@illegal_peer)
+      expect(@board).to receive(:illegal_move)
       @square.update @illegal_peer
     end
 

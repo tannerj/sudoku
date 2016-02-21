@@ -45,11 +45,7 @@ class Container
   end
 
   def update_possible_values( altered_peer )
-    if @possible_values.include? altered_peer.value
-      @possible_values.delete( altered_peer.value )
-    else
-      @board.illegal_move
-    end
+    @possible_values.delete( altered_peer.value )
   end
 end
 end
