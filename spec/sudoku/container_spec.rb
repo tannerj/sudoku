@@ -73,7 +73,7 @@ RSpec.describe Container do
     end
   end
 
-  describe "#update_peers" do
+  describe "#update" do
     let(:column) {  column = Container.new( 
         id: 1,
         member_calculator: MemberCalculator::Column.new
@@ -89,12 +89,12 @@ RSpec.describe Container do
       expect(column.member_squares).to all( 
         receive(:update).with( altered_square ).exactly(1).times 
       )
-      column.update_peers( square: altered_square )
+      column.update( square: altered_square )
     end
     it "should validate altered_square" do
       expect(column).to receive(:validate_square).with( altered_square )
                         .exactly(1).times
-      column.update_peers( square: altered_square )
+      column.update( square: altered_square )
     end
     context "Altered square is not a member of column" do
       it "should not call update on member_squares" do

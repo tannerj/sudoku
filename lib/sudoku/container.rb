@@ -26,7 +26,7 @@ class Container
     end
   end
 
-  def update_peers( args={} )
+  def update( args={} )
     altered_peer = args[:square]
     if validate_square( altered_peer )
       member_squares.each{ |member| member.update( altered_peer ) }
