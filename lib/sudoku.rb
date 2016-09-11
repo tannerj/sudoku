@@ -1,10 +1,3 @@
-require 'sudoku/game'
-require 'sudoku/board'
-require 'sudoku/null_board'
-require 'sudoku/square'
-require 'sudoku/null_square'
-require 'sudoku/container'
-require 'sudoku/null_container'
-require 'sudoku/member_calculator'
-require 'sudoku/io'
-require 'sudoku/errors'
+class Board
+
+end
