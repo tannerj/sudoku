@@ -7,6 +7,12 @@ class Square
     @value = args.fetch(:value, [1,2,3,4,5,6,7,8,9])
     @peers = []
   end
+
+  def add_peers( peer_array )
+    peer_array.each do |peer|
+      
+    end
+  end
 end
 
 class Unit
@@ -40,7 +46,7 @@ class Board
   COL_IDS = "123456789"
   BOX_IDS = "123456789"
 
-  attr_reader :squares, :units, :rows, :columns
+  attr_reader :squares, :units, :rows, :columns, :boxes
 
   def initialize( args={} )
     @squares = {}
@@ -63,6 +69,7 @@ class Board
   def build
     generate_squares
     generate_units
+    generate_square_peers
   end
 
   def generate_squares
@@ -96,13 +103,37 @@ class Board
       ROW_IDS.each_char do |row_id|
         col.add_member @squares[row_id + col_id]
       end
-      @columns[col.id.to_sym] = col
+      @columns[col.id] = col
       @units << col
     end
   end
 
   def generate_boxes
+    row_groups = ["ABC", "DEF", "GHI"]
+    col_groups = ["123", "456", "789"]
+    box_member_ids = []
+    row_groups.each do |row_group|
+      col_groups.each do |col_group|
+        box_member_ids << cross( row_group, col_group )
+      end
+    end
+    
+    box_member_ids.each_with_index do |box_members, index|
+      box = @box_klass.new id: index + 1
+      box_members.each do |member|
+        box.add_member( @squares[member] )
+      end
+      @boxes[index + 1] = box
+      @units << box
+    end
+  end
 
+  def generate_square_peers
+    @units.each do |unit|
+      unit.members.each do |member|
+        member.add_peers( unit.members )
+      end
+    end
   end
 
   def cross(a, b)
