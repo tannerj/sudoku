@@ -29,6 +29,10 @@ module Sudoku
     end
 
     def value= (value)      
+      value = value.to_i
+      if value == 0
+        return
+      end
       if !@value.include? value
         @incorrect_value = value
         @board.bad_move square: self, value: value
