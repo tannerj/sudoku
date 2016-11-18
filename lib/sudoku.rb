@@ -8,9 +8,11 @@ class Square
     @peers = []
   end
 
-  def add_peers( peer_array )
-    peer_array.each do |peer|
-      
+  def add_peers( peer_hash )
+    peer_hash.each do |index, peer|
+      if !@peers.include? peer
+        @peers << peer
+      end
     end
   end
 end
@@ -130,7 +132,7 @@ class Board
 
   def generate_square_peers
     @units.each do |unit|
-      unit.members.each do |member|
+      unit.members.each do |index, member|
         member.add_peers( unit.members )
       end
     end
