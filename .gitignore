@@ -1,0 +1,9 @@
+#Ignore bundler config.
+/.bundle
+
+#Ignore Vim tmp files
+*.swp
+*.swo
+
+#Ignore OSX files
+.DS_Store
