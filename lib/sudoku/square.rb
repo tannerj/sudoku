@@ -12,6 +12,7 @@ module Sudoku
   
     def add_peers( peer_hash )
       peer_hash.each do |index, peer|
+        next if peer.id == @id
         if !@peers.include? peer
           @peers << peer
         end

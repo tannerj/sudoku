@@ -12,7 +12,6 @@ module Sudoku
       @rows = {}
       @columns = {}
       @boxes = {}
-      @state = args.fetch(:state, nil)
       @square_klass = args.fetch(:square_klass, Sudoku::Square)
       @unit_klass = args.fetch(:unit_klass, Sudoku::Unit)
       @row_klass = args.fetch(:row_klass, Sudoku::Row)
@@ -51,7 +50,7 @@ module Sudoku
     
     def generate_rows
       ROW_IDS.each_char do |row_id|
-        row = Row.new id: row_id
+        row = @row_klass.new id: row_id
         COL_IDS.each_char do |col_id|
           row.add_member @squares["#{row_id}#{col_id}".to_sym]
         end
@@ -62,11 +61,11 @@ module Sudoku
   
     def generate_columns
       COL_IDS.each_char do |col_id|
-        col = Column.new id: col_id
+        col = @column_klass.new id: col_id
         ROW_IDS.each_char do |row_id|
           col.add_member @squares["#{row_id}#{col_id}".to_sym]
         end
-        @columns[col.id] = col
+        @columns[col.id.to_s.to_sym] = col
         @units << col
       end
     end
@@ -86,7 +85,7 @@ module Sudoku
         box_members.each do |member|
           box.add_member( @squares[member.to_sym] )
         end
-        @boxes[index + 1] = box
+        @boxes[(index + 1).to_s.to_sym] = box
         @units << box
       end
     end
