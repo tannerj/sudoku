@@ -39,7 +39,7 @@ module Sudoku
       square_ids = cross ROW_IDS, COL_IDS
       square_ids.each do |id|
         square = @square_klass.new id: id, board: self
-        @squares[id] = square
+        @squares[id.to_sym] = square
       end
     end
     
@@ -53,7 +53,7 @@ module Sudoku
       ROW_IDS.each_char do |row_id|
         row = Row.new id: row_id
         COL_IDS.each_char do |col_id|
-          row.add_member @squares[row_id + col_id]
+          row.add_member @squares["#{row_id}#{col_id}".to_sym]
         end
         @rows[row.id.to_sym] = row
         @units << row
@@ -64,7 +64,7 @@ module Sudoku
       COL_IDS.each_char do |col_id|
         col = Column.new id: col_id
         ROW_IDS.each_char do |row_id|
-          col.add_member @squares[row_id + col_id]
+          col.add_member @squares["#{row_id}#{col_id}".to_sym]
         end
         @columns[col.id] = col
         @units << col
@@ -84,7 +84,7 @@ module Sudoku
       box_member_ids.each_with_index do |box_members, index|
         box = @box_klass.new id: index + 1
         box_members.each do |member|
-          box.add_member( @squares[member] )
+          box.add_member( @squares[member.to_sym] )
         end
         @boxes[index + 1] = box
         @units << box
