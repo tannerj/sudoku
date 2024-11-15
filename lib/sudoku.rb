@@ -13,8 +13,8 @@ module Sudoku
   
     def add_peers( peer_hash )
       peer_hash.each do |index, peer|
-        if !@peers.include? peer
-          @peers << peer
+        if peer.id != @id && !@peers.include?(peer)
+          @peers << peer.id
         end
       end
     end
@@ -86,6 +86,7 @@ module Sudoku
       @box_klass = args.fetch(:box_klass, Sudoku::Box)
       
       build
+      return self
     end
 
     def bad_move( args={} )
